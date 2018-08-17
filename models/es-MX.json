@@ -1,0 +1,95 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "guia de la ciudad",
+            "intents": [
+                {
+                    "name": "AboutIntent",
+                    "slots": [],
+                    "samples": [
+                        "acerca de",
+                        "dime acerca de este lugar"
+                    ]
+                },
+                {
+                    "name": "CoffeeIntent",
+                    "slots": [],
+                    "samples": [
+                        "café"
+                    ]
+                },
+                {
+                    "name": "BreakfastIntent",
+                    "slots": [],
+                    "samples": [
+                        "desayuno"
+                    ]
+                },
+                {
+                    "name": "LunchIntent",
+                    "slots": [],
+                    "samples": [
+                        "comida"
+                    ]
+                },
+                {
+                    "name": "DinnerIntent",
+                    "slots": [],
+                    "samples": [
+                        "cena"
+                    ]
+                },
+                {
+                    "name": "AttractionIntent",
+                    "slots": [
+                        {
+                            "name": "distance",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "recomienda una atracción",
+                        "recomienda una atracción dentro de {distance} kilómetros a la redonda",
+                        "dame una actividad",
+                        "dame una actividad dentro de {distance} kilómetros a la redonda"
+                    ]
+                },
+                {
+                    "name": "GoOutIntent",
+                    "slots": [],
+                    "samples": [
+                        "salir",
+                        "salir fuera",
+                        "vamos a salir"
+                    ]
+                },
+                {
+                    "name": "AMAZON.YesIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "slots": [],
+                    "samples": []
+                }
+            ],
+            "types": []
+        }
+    }
+}
