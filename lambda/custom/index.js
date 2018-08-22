@@ -11,9 +11,11 @@
 //   and return text data on a card.
 
 const Alexa = require('ask-sdk-core');
+//var Alexa = require('alexa-sdk');
 const i18n = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
 const https = require('https');
+//var http = require('http');
 
 
 // 1. Handlers ===================================================================================
@@ -68,7 +70,7 @@ const CoffeeHandler = {
         const sessionAttributes = attributesManager.getSessionAttributes();
         const restaurant = randomArrayElement(getRestaurantsByMeal('coffee'));
         sessionAttributes.restaurant = restaurant.name;
-        const speechOutput = `For a great coffee shop, I recommend, ${restaurant.name}. Would you like to hear more?`;
+        const speechOutput = `Para una gran cafetería, yo recomiendo, ${restaurant.name}. ¿Quieres escuchar más al respecto?`;
 
         return responseBuilder.speak(speechOutput).reprompt(speechOutput).getResponse();
     },
@@ -87,7 +89,7 @@ const BreakfastHandler = {
         const sessionAttributes = attributesManager.getSessionAttributes();
         const restaurant = randomArrayElement(getRestaurantsByMeal('breakfast'));
         sessionAttributes.restaurant = restaurant.name;
-        const speechOutput = `For breakfast, try this, ${restaurant.name}. Would you like to hear more?`;
+        const speechOutput = `Para el desayuno, intenta este, ${restaurant.name}. ¿Quieres escuchar más al respecto?`;
 
         return responseBuilder.speak(speechOutput).reprompt(speechOutput).getResponse();
     },
@@ -106,7 +108,7 @@ const LunchHandler = {
         const sessionAttributes = attributesManager.getSessionAttributes();
         const restaurant = randomArrayElement(getRestaurantsByMeal('lunch'));
         sessionAttributes.restaurant = restaurant.name;
-        const speechOutput = `Lunch time! Here is a good spot. ${restaurant.name}. Would you like to hear more?`;
+        const speechOutput = `¡Hora de la comida! Aquí está un buen lugar. ${restaurant.name}. ¿Quieres escuchar más al respecto?`;
 
         return responseBuilder.speak(speechOutput).reprompt(speechOutput).getResponse();
     },
@@ -125,7 +127,7 @@ const DinnerHandler = {
         const sessionAttributes = attributesManager.getSessionAttributes();
         const restaurant = randomArrayElement(getRestaurantsByMeal('dinner'));
         sessionAttributes.restaurant = restaurant.name;
-        const speechOutput = `Enjoy dinner at, ${restaurant.name}. Would you like to hear more?`;
+        const speechOutput = `Disfruta una cena en, ${restaurant.name}. ¿Queres escuchar más al respecto?`;
 
         return responseBuilder.speak(speechOutput).reprompt(speechOutput).getResponse();
     },
@@ -145,10 +147,10 @@ const YesHandler = {
         const restaurantName = sessionAttributes.restaurant;
         const restaurantDetails = getRestaurantByName(restaurantName);
         const speechOutput = `${restaurantDetails.name
-        } is located at ${restaurantDetails.address
-        }, the phone number is ${restaurantDetails.phone
-        }, and the description is, ${restaurantDetails.description
-        }  I have sent these details to the Alexa App on your phone.  Enjoy your meal!
+        } está ubicado en, ${restaurantDetails.address
+        }, el número telefónico es, ${restaurantDetails.phone
+        }, y su descripción es, ${restaurantDetails.description
+        }  He enviado esos detalles a la aplicación Alexa en tu teléfono.  ¡Disfruta tu comida!
         <say-as interpret-as="interjection">bon appetit</say-as>`;
 
         const card = `${restaurantDetails.name}\n${restaurantDetails.address}\n$
@@ -178,9 +180,9 @@ const AttractionHandler = {
 
         const attraction = randomArrayElement(getAttractionsByDistance(distance));
 
-        const speechOutput = `Try ${
-            attraction.name}, which is ${
-            attraction.distance === '0' ? 'right downtown. ' : `${attraction.distance} miles away. Have fun! `
+        const speechOutput = `Intenta ${
+            attraction.name}, el cual es ${
+            attraction.distance === '0' ? 'justo en el centro. ' : `${attraction.distance} kilómetros de aqui. ¡Diviértete! `
         }${attraction.description}`;
 
         return responseBuilder.speak(speechOutput).getResponse();
@@ -196,10 +198,10 @@ const GoOutHandler = {
     handle(handlerInput) {
         return new Promise((resolve) => {
             getWeather((localTime, currentTemp, currentCondition) => {
-                const speechOutput = `It is ${localTime
-                } and the weather in ${data.city
-                } is ${
-                    currentTemp} and ${currentCondition}`;
+                const speechOutput = `son las ${localTime
+                } y el clima en ${data.city
+                } es ${
+                    currentTemp} y ${currentCondition}`;
                 resolve(handlerInput.responseBuilder.speak(speechOutput).getResponse());
             });
         });
@@ -251,7 +253,7 @@ const SessionEndedHandler = {
         return request.type === 'SessionEndedRequest';
     },
     handle(handlerInput) {
-        console.log(`Session ended with reason: ${handlerInput.requestEnvelope.request.reason}`);
+        console.log(`Sesión finalizada por la siguiente razón: ${handlerInput.requestEnvelope.request.reason}`);
 
         return handlerInput.responseBuilder.getResponse();
     },
@@ -264,12 +266,12 @@ const ErrorHandler = {
     handle(handlerInput, error) {
         const request = handlerInput.requestEnvelope.request;
 
-        console.log(`Error handled: ${error.message}`);
-        console.log(` Original request was ${JSON.stringify(request, null, 2)}\n`);
+        console.log(`Manejo del error: ${error.message}`);
+        console.log(` La solicitud original fué ${JSON.stringify(request, null, 2)}\n`);
 
         return handlerInput.responseBuilder
-            .speak('Sorry, I can\'t understand the command. Please say again.')
-            .reprompt('Sorry, I can\'t understand the command. Please say again.')
+            .speak('Una disculpa, no puedo entender el comando. Por favor intenta nuevamente.')
+            .reprompt('Una disculpa, no puedo entender el comando. Por favor dilo de nuevo.')
             .getResponse();
     },
 };
@@ -310,92 +312,71 @@ const FallbackHandler = {
 // 2. Constants ==================================================================================
 
 const languageStrings = {
-    en: {
+    es  : {
         translation: {
-            WELCOME: 'Welcome to Gloucester Guide!',
-            HELP: 'Say about, to hear more about the city, or say coffee, breakfast, lunch, or dinner, to hear local restaurant suggestions, or say recommend an attraction, or say, go outside. ',
-            ABOUT: 'Gloucester Massachusetts is a city on the Atlantic Ocean.  A popular summer beach destination, Gloucester has a rich history of fishing and ship building.',
-            STOP: 'Okay, see you next time!',
+            WELCOME: '¡Bienvenido a la guía de Tampico!',
+            HELP: 'Menciona sobre lo que quieres saber de la ciudad, o menciona café, desayuno, comida o cena, para escuchar acerca de sugerencias de los restaurantes locales, o que recomiende una atracción, o menciona salir fuera. ',
+            ABOUT: 'Tampico Tamaulipas es una ciudad en el golfo de México. Un popular destino turístico, Tampico tiene una rica historia como destino turístico, Tampico tiene una rica historia de pesca y transporte marítimo.',
+            STOP: '¡Está bien, te veo la próxima!',
         },
     },
     // , 'de-DE': { 'translation' : { 'TITLE'   : "Local Helfer etc." } }
 };
 const data = {
-    city: 'Gloucester',
-    state: 'MA',
-    postcode: '01930',
+    city: 'Tampico',
+    state: 'TAMPS',
+    postcode: '89000',
     restaurants: [
         {
-            name: "Zeke's Place",
-            address: '66 East Main Street',
-            phone: '978-283-0474',
-            meals: 'breakfast, lunch',
-            description: 'A cozy and popular spot for breakfast.  Try the blueberry french toast!',
+            name: "Ocho Leguas",
+            address: 'Avenida Hidalgo 122',
+            phone: '3-77-88-44',
+            meals: 'desayuno, comida',
+            description: 'Un buen lugar para tomar el desayuno.  ¡Prueben su única hamburguesa!',
         },
         {
-            name: 'Morning Glory Coffee Shop',
-            address: '25 Western Avenue',
-            phone: '978-281-1851',
-            meals: 'coffee, breakfast, lunch',
-            description: 'A homestyle diner located just across the street from the harbor sea wall.',
+            name: 'Regio Burger',
+            address: 'Laguna de la Puerta',
+            phone: '3-45-76-32',
+            meals: 'cena',
+            description: 'Hamburguesas al carbón estilo monterrey.',
         },
         {
-            name: 'Sugar Magnolias',
-            address: '112 Main Street',
-            phone: '978-281-5310',
-            meals: 'breakfast, lunch',
-            description: 'A quaint eatery, popular for weekend brunch.  Try the carrot cake pancakes.',
-        },
-        {
-            name: 'Seaport Grille',
-            address: '6 Rowe Square',
-            phone: '978-282-9799',
-            meals: 'lunch, dinner',
-            description: 'Serving seafood, steak and casual fare.  Enjoy harbor views on the deck.',
-        },
-        {
-            name: 'Latitude 43',
-            address: '25 Rogers Street',
-            phone: '978-281-0223',
-            meals: 'lunch, dinner',
-            description: 'Features artsy decor and sushi specials.  Live music evenings at the adjoining Minglewood Tavern.',
-        },
-        {
-            name: "George's Coffee Shop",
-            address: '178 Washington Street',
-            phone: '978-281-1910',
-            meals: 'coffee, breakfast, lunch',
-            description: 'A highly rated local diner with generously sized plates.',
+            name: "Cielo Rojo Café",
+            address: 'Amplicación Unidad Nacional',
+            phone: '6-86-34-98',
+            meals: 'café, desayuno',
+            description: 'Un excelente lugar para desayunar y tomar café.',
         },
 
     ],
     attractions: [
         {
-            name: 'Whale Watching',
-            description: 'Gloucester has tour boats that depart twice daily from Rogers street at the harbor.  Try either the 7 Seas Whale Watch, or Captain Bill and Sons Whale Watch. ',
+            name: 'Mirador de Cocodrilos',
+            description: 'Sitio en la LAguna del Carpintero para visitar d admirar grandes cocodrilos. ',
             distance: '0',
         },
         {
-            name: 'Good Harbor Beach',
-            description: 'Facing the Atlantic Ocean, Good Harbor Beach has huge expanses of soft white sand that attracts hundreds of visitors every day during the summer.',
+            name: 'Zona Centro Tampico',
+            description: 'Zona centro de la ciudad, con variedad de tiendas y restaurantes para todos los gustos.',
             distance: '2',
         },
         {
-            name: 'Rockport',
-            description: 'A quaint New England town, Rockport is famous for rocky beaches, seaside parks, lobster fishing boats, and several art studios.',
+            name: 'Centro Comercial Altama',
+            description: 'Un lugar donde se encuentran las principales tiendas departamentales, ideal para pasar la tarde.',
             distance: '4',
         },
         {
-            name: 'Fenway Park',
-            description: 'Home of the Boston Red Sox, Fenway park hosts baseball games From April until October, and is open for tours. ',
-            distance: '38',
+            name: 'Playa Miramar',
+            description: 'Playa en Ciudad Madero con diversas actividades y agradables restaurantes. ',
+            distance: '6',
         },
     ],
 };
 
-const SKILL_NAME = 'Gloucester Guide';
-const FALLBACK_MESSAGE = `The ${SKILL_NAME} skill can\'t help you with that.  It can help you learn about Gloucester if you say tell me about this place. What can I help you with?`;
-const FALLBACK_REPROMPT = 'What can I help you with?';
+const SKILL_NAME = 'Guia Tampico';
+const FALLBACK_MESSAGE = `La ${SKILL_NAME} no puede ayudarte con eso.  Te puedo ayudar a conocer Tampico si tu me dices cuéntame de este lugar. ¿Cómo puedo ayudarte?`;
+const FALLBACK_REPROMPT = '¿De qué forma puedo ayudarte?';
 
 
 
